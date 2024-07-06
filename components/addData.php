@@ -1,3 +1,33 @@
+<?php
+// Koneksi ke functions.php
+require '../constant/functions.php';
+
+// Cek apakah tombol submit sudah ditekan atau belum
+if (isset($_POST["submit"])) {
+
+
+
+    // cek apakah data berhasil ditambahkan atau tidak
+    if(addData($_POST) > 0){
+        echo "
+            <script>
+                alert('data berhasil ditambahkan');
+                document.location.href = '../pages/admin.php';
+            </script>
+        ";
+    } else{
+        echo "
+            <script>
+                alert('data gagal ditambahkan');
+                document.location.href = '../pages/admin.php';
+            </script>
+        ";
+    }
+    
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,18 +51,22 @@
         <div class="bg-darkColorLight p-6 rounded-lg shadow-md max-w-lg mx-auto">
             <h2 class="text-2xl font-bold text-whiteColor mb-6">Add New Data</h2>
             
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <div class="mb-4">
                     <label for="name" class="block text-left text-primaryColor">Name:</label>
-                    <input type="text" name="name" id="name" class="w-full px-3 py-2 border border-primaryColor rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
+                    <input type="text" name="name" id="name" class="w-full px-3 py-2 border border-primaryColor bg-darkColorLight rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
                 </div>
                 <div class="mb-4">
-                    <label for="email" class="block text-left text-primaryColor">Email:</label>
-                    <input type="email" name="email" id="email" class="w-full px-3 py-2 border border-primaryColor rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
+                    <label for="category" class="block text-left text-primaryColor">Category:</label>
+                    <input type="text" name="category" id="category" class="w-full px-3 py-2 border border-primaryColor bg-darkColorLight rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
                 </div>
                 <div class="mb-4">
-                    <label for="role" class="block text-left text-primaryColor">Role:</label>
-                    <input type="text" name="role" id="role" class="w-full px-3 py-2 border border-primaryColor rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
+                    <label for="price" class="block text-left text-primaryColor">Price:</label>
+                    <input type="price" name="price" id="price" class="w-full px-3 py-2 border border-primaryColor bg-darkColorLight rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
+                </div>
+                <div class="mb-4">
+                    <label for="image" class="block text-left text-primaryColor">Image:</label>
+                    <input type="file" name="image" id="image" class="w-full px-3 py-2 border border-primaryColor bg-darkColorLight rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor" required>
                 </div>
                 <div class="mb-4">
                     <button type="submit" name="submit" class="w-full px-3 py-2 bg-primaryColor text-darkColor rounded-lg hover:bg-yellow-600">Add Data</button>

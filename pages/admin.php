@@ -1,3 +1,11 @@
+<?php
+// Koneksi ke functions.php
+require '../constant/functions.php';
+
+// Mengambil data produk dari database
+$products = getProducts();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,22 +39,33 @@
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b">ID</th>
+                            <th class="py-2 px-4 border-b">Image</th>
                             <th class="py-2 px-4 border-b">Name</th>
-                            <th class="py-2 px-4 border-b">Email</th>
+                            <th class="py-2 px-4 border-b">Category</th>
+                            <th class="py-2 px-4 border-b">Price</th>
                             <th class="py-2 px-4 border-b">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $i = 1; ?>
+                        <?php foreach ($products as $product) : ?>
                         <tr>
-                            <td class="py-2 px-4 border-b">1</td>
-                            <td class="py-2 px-4 border-b">John Doe</td>
-                            <td class="py-2 px-4 border-b">john.doe@example.com</td>
+                            <td class="py-2 px-4 border-b"><?= $i; ?></td>
                             <td class="py-2 px-4 border-b">
-                                <button class="bg-greenColor text-whiteColor px-2 py-1 rounded hover:bg-green-600">Edit</button>
-                                <button class="bg-redColor text-whiteColor px-2 py-1 rounded hover:bg-red-600">Delete</button>
+                                <img src="../assets/img/<?= $product["image"]; ?>" width="80">
+                            </td>
+
+                            <td class="py-2 px-4 border-b"><?= $product["name"]; ?></td>
+                            <td class="py-2 px-4 border-b"><?= $product["category"]; ?></td>
+                            <td class="py-2 px-4 border-b"><?= $product["price"]; ?></td>
+                            <td class="py-2 px-4 border-b">
+                                <a class="bg-greenColor text-whiteColor px-2 py-1 rounded hover:bg-green-600" href="../components/editData.php?id=<?= $product["id"]; ?>">Edit</a>
+                                <a class="bg-redColor text-whiteColor px-2 py-1 rounded hover:bg-red-600" href="../components/delateData.php?id=<?= $product["id"]; ?>" onclick="return confirm('YAKIN ?');">Delete</a>
                             </td>
                         </tr>
-                        <!-- Repeat the above <tr> block for more rows -->
+                        <?php $i++; ?>
+                        <?php endforeach; ?>
+                        
                     </tbody>
                 </table>
             </div>

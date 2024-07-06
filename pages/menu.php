@@ -1,3 +1,17 @@
+<?php
+// Koneksi ke functions.php
+require '../constant/functions.php';
+
+// Mengambil data produk dari database
+$products = getProducts();
+
+// Jika tombol search diklik
+if (isset($_POST["cari"])) {
+    $products = searchData($_POST["keyword"]);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,17 +62,29 @@
     </header>
 
     <!-- Menu -->
-    <section id="menu" class="mt-10">
+    <section id="menu" class="mt-2">
         <div class="container">
-            <div class="max-w-lg mx-auto text-center">
+            <div class="max-w-xl mx-auto text-center">
                 <h2 class="section__title">OUR BEST MENU</h2>
                 <div class="separator mx-auto"></div>
                 <p class="paragraph">Find your favorite food with ease! Use the search box below to search for our specials or browse popular categories like pizza, pasta and desserts. Simply type in the name of the food or category you want and let us find the best one for you.</p>
                 <div class="mt-5">
                     <form action="" method="post" class="flex justify-center items-center">
-                        <input type="text" name="keyword" size="50" autofocus placeholder="Enter keywords menu" autocomplete="off" class="p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primaryColor">
-                        <button type="submit" name="cari" class="p-2 bg-primaryColor text-white rounded-r-md hover:bg-primaryColor-dark">Search</button>
+                        <input type="text" name="keyword" size="50" autofocus placeholder="Enter keywords menu" autofocus autocomplete="off" class="p-2 border border-gray-300 bg-darkColor rounded-l-md focus:outline-none focus:ring-2 focus:ring-primaryColor">
+                        <button type="submit" name="cari" class="p-2 bg-primaryColor text-darkColor hover:font-semibold rounded-r-md hover:bg-primaryColor-dark">Search</button>
                     </form>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-10">
+                    <?php foreach ($products as $product) : ?>
+                        <div class="bg-darkColorLight p-4 pt-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center hover:border-primaryColor hover:border">
+                            <img src="../assets/img/<?= $product["image"]; ?>" class="w-20 h-20 rounded-full mb-2 hover:animate-movingY" alt="Product Image">
+                            <div>
+                                <h3 class="text-lg font-semibold"><?= $product["name"]; ?></h3>
+                                <p class="text-gray-600 mb-2"><?= $product["category"]; ?></p>
+                                <p class="text-green-500 font-bold"><?= "$" . number_format($product["price"], 2); ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
