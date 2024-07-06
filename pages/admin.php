@@ -1,9 +1,18 @@
 <?php
+
+session_start();
+
+if( !isset($_SESSION["login"])){
+    header("Location: ../components/login.php");
+    exit;
+}
+
 // Koneksi ke functions.php
 require '../constant/functions.php';
 
 // Mengambil data produk dari database
-$products = getProducts();
+$products = query("SELECT * FROM products");
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +29,7 @@ $products = getProducts();
     <header class="bg-darkColorLight text-primaryColor py-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center px-4">
             <h1 class="text-xl font-bold">Admin Panel</h1>
-            <a href="./logout.php" class="text-whiteColor bg-redColor hover:bg-red-900 px-4 py-2 rounded-md">Logout</a>
+            <a href="../components/logout.php" class="text-whiteColor bg-redColor hover:bg-red-900 px-4 py-2 rounded-md">Logout</a>
         </div>
     </header>
 

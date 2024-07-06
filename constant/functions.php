@@ -2,16 +2,19 @@
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "pizzahut24");
 
-// Fungsi untuk mengambil data produk dari database
-function getProducts() {
+// Cek koneksi
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+function query($query1) {
     global $conn;
-    $query = "SELECT * FROM products"; // Sesuaikan dengan struktur tabel Anda
-    $result = mysqli_query($conn, $query);
-    $products = [];
+    $result = mysqli_query($conn, $query1);
+    $rows = [];
     while ($row = mysqli_fetch_assoc($result)) {
-        $products[] = $row;
+        $rows[] = $row;
     }
-    return $products;
+    return $rows;
 }
 
 function addData($data) {
@@ -19,22 +22,23 @@ function addData($data) {
     // Ambil data dari tiap elemen dalam form dan bersihkan
     $nama = mysqli_real_escape_string($conn, htmlspecialchars($data["name"]));
     $kategori = mysqli_real_escape_string($conn, htmlspecialchars($data["category"]));
-    $price = mysqli_real_escape_string($conn, htmlspecialchars($data["price"]));
+    $harga = mysqli_real_escape_string($conn, htmlspecialchars($data["price"]));
 
     // uplaod gambar
-    $image = uploadImage();
-    if (!$image){
+    $gambar = uploadImage();
+    if (!$gambar){
         return false;
     }
 
     // Query insert data
     $createQuery = "INSERT INTO products (name, category, price, image)
-                    VALUES ('$nama', '$kategori', '$price', '$image')";
+                    VALUES ('$nama', '$kategori', '$harga', '$gambar')";
 
     mysqli_query($conn, $createQuery);
 
     return mysqli_affected_rows($conn);
 }
+
 function uploadImage(){
     $namaFile = $_FILES['image']['name'];
     $sizeFile = $_FILES['image']['size'];
@@ -92,9 +96,9 @@ function editData($data) {
 
     // cek apakah user memilih gambar baru atau tidak
     if ($_FILES['image']['error'] === 4){
-        $image = $gambarLama;
+        $gambar = $gambarLama;
     } else {
-        $image = uploadImage();
+        $gambar = uploadImage();
     }
 
     // Query update data
@@ -102,7 +106,7 @@ function editData($data) {
                     name = '$nama',
                     category = '$kategori',
                     price = '$harga',
-                    image = '$image'
+                    image = '$gambar'
                     WHERE id = $id";
 
     mysqli_query($conn, $createQuery);
@@ -120,20 +124,48 @@ function delateData($id) {
 function searchData($keyword){
     global $conn;
 
-    $query = "SELECT * FROM products
+    $query1 = "SELECT * FROM products
               WHERE
               name LIKE '%$keyword%' OR
               category LIKE '%$keyword%' OR
               price LIKE '%$keyword%'";
 
-    $result = mysqli_query($conn, $query);
+    return query($query1);
+}
 
-    $products = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $products[] = $row;
+function regisAdmins($data){
+    global $conn;
+
+    $username = strtolower(stripslashes($data["username"]));
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
+
+    // cek username sudah ada atau belum
+    $result = mysqli_query($conn, "SELECT username FROM admins WHERE username = '$username'");
+    if(mysqli_fetch_assoc($result)){
+        echo " <script>
+            alert ('username sudah terdaftar, silahkan cari yang baru');
+        </script>";
+
+        return false;
     }
 
-    return $products;
+    // cek konfirmasi password dengan password 2
+    if ($password !== $password2){
+        echo "
+            <script> 
+                alert ('Konfirmasi password tidak sesuai');
+            </script>";
+        return false;
+    } 
+
+    // enkripsi password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    // tambahkan userbaru
+    mysqli_query($conn, "INSERT INTO admins VALUES('', '$username', '$password')");
+
+    return mysqli_affected_rows($conn);
 }
 
 

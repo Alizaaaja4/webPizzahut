@@ -1,3 +1,20 @@
+<?php
+// Koneksi ke functions.php
+require '../constant/functions.php';
+
+// jika tombol registrasi sudah ditekan
+if (isset($_POST["register"])){
+    if (regisAdmins($_POST) > 0){
+        echo "<script> 
+            alert ('Registrasi berhasil dilakukan!!');
+        </script>";
+    } else{
+        echo mysqli_error($conn);
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,16 +40,16 @@
             <div class="border border-primaryColor mt-7 p-5 rounded-lg shadow-lg">
                 <form action="" method="post">
                     <div class="mb-4">
-                        <label for="username" class="block text-left text-gray-700">Username:</label>
-                        <input type="text" name="username" id="username" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor">
+                        <label for="username" class="block text-left text-primaryColor">Username:</label>
+                        <input type="text" name="username" id="username" class="w-full px-3 py-2 border rounded-lg bg-darkColorLight focus:outline-none focus:ring-primaryColor focus:border-primaryColor">
                     </div>
                     <div class="mb-4">
-                        <label for="password" class="block text-left text-gray-700">Password:</label>
-                        <input type="password" name="password" id="password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor">
+                        <label for="password" class="block text-left text-primaryColor">Password:</label>
+                        <input type="password" name="password" id="password" class="w-full px-3 py-2 border rounded-lg bg-darkColorLight focus:outline-none focus:ring-primaryColor focus:border-primaryColor">
                     </div>
                     <div class="mb-4">
-                        <label for="password2" class="block text-left text-gray-700">Password Confirmation:</label>
-                        <input type="password" name="password2" id="password2" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-primaryColor focus:border-primaryColor">
+                        <label for="password2" class="block text-left text-primaryColor">Password Confirmation:</label>
+                        <input type="password" name="password2" id="password2" class="w-full px-3 py-2 border rounded-lg bg-darkColorLight focus:outline-none focus:ring-primaryColor focus:border-primaryColor">
                     </div>
                     <div class="mb-4">
                         <button type="submit" name="register" class="w-full px-3 py-2 bg-primaryColor text-white rounded-lg hover:bg-primaryColor-dark">Register</button>

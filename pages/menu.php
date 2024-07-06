@@ -3,7 +3,7 @@
 require '../constant/functions.php';
 
 // Mengambil data produk dari database
-$products = getProducts();
+$products = query("SELECT * FROM products");
 
 // Jika tombol search diklik
 if (isset($_POST["cari"])) {

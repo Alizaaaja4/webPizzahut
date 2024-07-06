@@ -1,11 +1,17 @@
 <?php
+
+session_start();
+
+if( !isset($_SESSION["login"])){
+    header("Location: ../components/login.php");
+    exit;
+}
+
 // Koneksi ke functions.php
 require '../constant/functions.php';
 
 // Cek apakah tombol submit sudah ditekan atau belum
 if (isset($_POST["submit"])) {
-
-
 
     // cek apakah data berhasil ditambahkan atau tidak
     if(addData($_POST) > 0){

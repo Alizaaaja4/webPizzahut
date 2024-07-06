@@ -1,14 +1,19 @@
 <?php
+
+session_start();
+
+if( !isset($_SESSION["login"])){
+    header("Location: ../components/login.php");
+    exit;
+}
+
 // Koneksi ke functions.php
 require '../constant/functions.php';
 
-// Mengambil data produk dari database
-$products = getProducts();
-
 // ambil data di url
 $id = $_GET["id"];
-// query data mahasiswa berdasarkan ID
-$product = getProducts("SELECT * FROM products WHERE id = $id")[0];
+// query data items berdasarkan ID
+$product = query("SELECT * FROM products WHERE id = $id")[0];
 
 // Cek apakah tombol submit sudah ditekan atau belum
 if (isset($_POST["submit"])) {

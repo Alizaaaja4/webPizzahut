@@ -1,4 +1,13 @@
 <?php
+
+session_start();
+
+if( !isset($_SESSION["login"])){
+    header("Location: ../components/login.php");
+    exit;
+
+}
+
 // Koneksi ke functions.php
 require '../constant/functions.php';
 
