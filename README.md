@@ -25,7 +25,7 @@ webPizzahut is a demonstration project aimed at showcasing the integration of Ta
     git clone https://github.com/YourUsername/webPizzahut.git
 
 ## Demo 🎥
-![Demo GIF](path/to/your/demo.gif)
+![Demo GIF](https://github.com/Alizaaaja4/webPizzahut/blob/main/assets/video/DemoPizzaHut.gif)
 
 ## License 📜
 This project is licensed under the MIT License.
